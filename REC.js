@@ -1,38 +1,50 @@
-let balance = 5000;
+let balance = 10000;
 
-function deposit() {
-    let amount = Number(
-        document.getElementById("amount").value
-    );
+function depositMoney() {
+    let amount = Number(document.getElementById("amount").value);
 
-    if (amount > 0) {
-        balance += amount;
-        update("Deposited: ₹" + amount);
-    } else {
-        alert("Enter valid amount");
+    if (amount <= 0 || isNaN(amount)) {
+        alert("Please enter a valid amount!");
+        return;
     }
-}
 
-function withdraw() {
-    let amount = Number(
-        document.getElementById("amount").value
-    );
+    balance = balance + amount;
 
-    if (amount > 0 && amount <= balance) {
-        balance -= amount;
-        update("Withdrawn: ₹" + amount);
-    } else {
-        alert("Insufficient balance or invalid amount");
-    }
-}
-
-function update(message) {
     document.getElementById("balance").innerText = balance;
 
-    let li = document.createElement("li");
-    li.innerText = message;
+    let history = document.getElementById("history");
 
-    document.getElementById("history").appendChild(li);
+    let item = document.createElement("li");
+    item.innerText = "Deposited: ₹" + amount;
+
+    history.appendChild(item);
+
+    document.getElementById("amount").value = "";
+}
+
+function withdrawMoney() {
+    let amount = Number(document.getElementById("amount").value);
+
+    if (amount <= 0 || isNaN(amount)) {
+        alert("Please enter a valid amount!");
+        return;
+    }
+
+    if (amount > balance) {
+        alert("Insufficient Balance!");
+        return;
+    }
+
+    balance = balance - amount;
+
+    document.getElementById("balance").innerText = balance;
+
+    let history = document.getElementById("history");
+
+    let item = document.createElement("li");
+    item.innerText = "Withdrawn: ₹" + amount;
+
+    history.appendChild(item);
 
     document.getElementById("amount").value = "";
 }
